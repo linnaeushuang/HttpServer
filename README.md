@@ -1,1 +1,16 @@
-# webServer
+# A Http Server implementd in C++
+
+test website: http://linnaeushuang.xyz
+
+## Envoirment
+
+- Ubuntu 16.04
+- g++ 5.4.0
+- cmake 3.5.1
+- Make 4.1
+
+## Build
+```
+./build.sh
+```
+
