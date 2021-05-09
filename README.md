@@ -14,3 +14,5 @@ test website: http://linnaeushuang.xyz
 ./build.sh
 ```
 
+## Branch
+- lockfree: A version that uses lockfree queue in work queue. This version has a lower QPS than the main branch.
