@@ -10,6 +10,7 @@
 #include "utils/SocketUtils.h"
 #include "utils/CurrentThread.h"
 #include "utils/Thread.h"
+#include "utils/LockFreeQueue.h"
 
 // reference muduo
 
@@ -25,7 +26,9 @@ private:
 	bool quit_;
 	bool eventHandling_;
 	mutable MutexLock mutex_;
-	std::vector<Functor> pendingFunctors_;
+
+	LockFreeQueue<Functor> pendingFunctors_;
+
 	bool callingPendingFunctors_;
 	const pid_t threadId_;
 	// wrapper eventfd as a Event class

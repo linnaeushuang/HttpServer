@@ -55,13 +55,14 @@ void EventLoop::readWakeupFd(){
 }
 
 void EventLoop::doPendingFunctors(){
-	std::vector<Functor> functors;
 	callingPendingFunctors_ = true;
-	{
-		MutexLockGuard lock(mutex_);
-		functors.swap(pendingFunctors_);
+
+	std::function<void()> nowFun;
+	while(pendingFunctors_.size()>0){
+		pendingFunctors_.pop(nowFun);
+		nowFun();
 	}
-	for(size_t i = 0; i<functors.size();++i) functors[i]();
+
 	callingPendingFunctors_ = false;
 }
 
@@ -111,10 +112,10 @@ void EventLoop::runInLoop(Functor&& callBack){
 void EventLoop::queueInLoop(Functor&& callBack){
 	// this function will be call by main thread.
 	// need to use mutex to ensure synchronization.
-	{
-		MutexLockGuard lock(mutex_);
-		pendingFunctors_.emplace_back(std::move(callBack));
-	}
+	
+	pendingFunctors_.push(std::move(callBack));
+
+
 	// if call by other(main) thread 
 	// or 
 	// doing pending function(1).
