@@ -30,6 +30,7 @@ size_t convert(char buf[], T value) {
 		tmp_swap=*buf;
 		*buf=*p;
 		*p=tmp_swap;
+		buf++;
 	}
 	return len;
 }
